@@ -101,7 +101,7 @@ The preceding example uses explicit extensions `.mjs` and `.cjs`.
 If your files use the `.js` extension, `"type": "module"` will cause such files
 to be treated as ES modules, just as `"type": "commonjs"` would cause them
 to be treated as CommonJS.
-See [Enabling](esm.md#enabling).
+See [Enabling ESM][].
 
 ```cjs
 // ./node_modules/pkg/index.cjs
@@ -265,9 +265,9 @@ conditional exports for consumers could be to add an export, e.g.
 }
 ```
 
-
 [Babel]: https://babeljs.io/
 [Conditional exports]: https://nodejs.org/api/packages.html#conditional-exports
+[Enabling ESM]: https://nodejs.org/api/esm.html#enabling
 [`esm`]: https://github.com/standard-things/esm#readme
 [`main`]: https://nodejs.org/api/packages.html#main
 [`package.json`]: https://nodejs.org/api/packages.html#nodejs-packagejson-field-definitions
