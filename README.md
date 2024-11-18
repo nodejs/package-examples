@@ -3,10 +3,16 @@
 > [!NOTE]  
 > This repository is currently under construction. It's meant to replace the sections in the Node.js package documentation for documenting package shipping patterns, the pros and cons, and guidelines for CJS to ESM migration.
 
+A team is being formed to get this effort up and going! See [Issue #3](https://github.com/nodejs/package-examples/issues/3) for details.
+
 ## Previous documents from package.md in Node.js API documentation
 
 > [!NOTE]  
-> This is currently copied from the old package.md as-is. A lot of the information has been outdated since Node.js started to support `require(esm)`. We are still working on an update. Do not follow the documentation below for new packages for the time being.
+> The following document is copied from the old package.md as-is, it will be in the README.md
+> temporarily until we work out better and more up-to-date examples and documentation
+> in this repository.
+> A lot of the information below been outdated since Node.js started to support `require(esm)`.
+> Do not follow the documentation below for new packages for the time being.
 
 Prior to the introduction of support for ES modules in Node.js, it was a common
 pattern for package authors to include both CommonJS and ES module JavaScript
