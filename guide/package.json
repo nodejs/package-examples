@@ -1,0 +1,13 @@
+{
+  "name": "package-examples-guide",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "honkit serve",
+    "build": "honkit build"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "honkit": "^6.0.2"
+  }
+}
