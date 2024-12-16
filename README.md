@@ -5,6 +5,8 @@
 
 A team is being formed to get this effort up and going! See [Issue #3](https://github.com/nodejs/package-examples/issues/3) for details.
 
+⚒️ We are working on a [guide](./guide/) about how package configurations. See [contribution guide](./CONTRIBUTING.md) on how to contribute to it.
+
 ## Previous documents from package.md in Node.js API documentation
 
 > [!NOTE]  

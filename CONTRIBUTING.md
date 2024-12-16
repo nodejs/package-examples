@@ -1,5 +1,29 @@
+# Contributing guide
 
-# Developer's Certificate of Origin 1.1
+## Building the guide locally
+
+```bash
+# Clone this repository first, and then switch to the project directory
+cd package-examples
+cd guide
+npm ci
+npm run build  # Build the guide book in _book
+npm start      # Run a development server that host the built guide
+```
+
+The guide book is currently developed using [Honkit](https://github.com/honkit/honkit).
+See [the documentation of Honkit](https://honkit.netlify.app/) on how to write a book
+and customize the book with it.
+
+We are currently scaffolding the book with the structure in
+[`guide/SUMMARY.md`](./guide/SUMMARY.md). Each chapter has their own folder
+under [`./guide`](./guide/) and should be numbered, except [Q&A](./guide/q-n-a/)
+and [troubleshooting](./guide/troubleshooting/). In some chapters, there are
+more subfolders with a `README.md` inside, those are meant to house working
+examples. We are also planning to fill those in and create a workflow to run
+tests with them.
+
+## Developer's Certificate of Origin 1.1
 
 By making a contribution to this project, I certify that:
 
