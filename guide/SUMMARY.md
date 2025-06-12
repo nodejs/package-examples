@@ -2,8 +2,8 @@
 
 ### Getting started
 
-* [Primer on `package.json`](01-getting-started/package-json-fields.md)
 * [CommonJS and ESM](01-getting-started/commonjs-and-esm.md)
+* [Primer on `package.json`](01-getting-started/package-json-fields.md)
 
 ### Basics
 
