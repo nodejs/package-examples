@@ -96,7 +96,7 @@ For example, you can define the `exports` field like this:
   "version": "1.0.0",
   "main": "logger.js",
   "exports": {
-    "./": "./logger.js"
+    ".": "./logger.js"
   }
 }
 ```
