@@ -120,6 +120,26 @@ When `exports` is provided, usually there's no need to specify the `main` field 
 
 To learn more about the `exports` field, see [Node.js documentation on package exports](https://nodejs.org/api/packages.html#package-entry-points).
 
+## The `files` field
+
+The `files` field is an array that specifies which files and directories should be included when the package is published to the package registry, this is useful for excluding unnecessary files from being published. For example, for our `my-logger` package, we can set it like this:
+
+```json
+{
+  "name": "my-logger",
+  "version": "1.0.0",
+  "main": "logger.js",
+  "exports": {
+    ".": "./logger.js"
+  },
+  "files": [
+    "logger.js",
+  ]
+}
+```
+
+It's unnecessary to include `package.json` in the `files` field, as it is always included by default when publishing a package. There are several other files that will always be included, or excluded when the package is published. While different package managers may have slightly different conventions, the most widely accepted behavior can be consulted in the [npm documentation](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#files).
+
 ## `package.json` lookups
 
 In Node.js, when a module is loaded using either `require()`, `import` or `import()`, Node.js will search for a `package.json` file starting from the directory in which the module being loaded resides. If it doesn't find one, it will continue searching up the directory tree until it either finds a `package.json` file or reaches the root of the filesystem. If any `package.json` file is found during this search, Node.js will use the fields in that file to determine how to load the module.
