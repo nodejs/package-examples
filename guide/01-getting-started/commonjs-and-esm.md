@@ -91,7 +91,7 @@ In Node.js, a `.js` file is treated as a CommonJS module by default. However, yo
 }
 ```
 
-To learn more about the `package.json` file, see [package.json fields](./package-json-fields.md).
+To learn more about the `package.json` file, see [package.json fields](./package-json.md).
 
 When the `type` field is set to `"module"`, Node.js will treat all `.js` files in that package as ECMAScript modules. In that case, you can use the `.cjs` file extension to indicate that a file is a CommonJS module.
 
@@ -136,7 +136,7 @@ const logger = new Logger('debug');
 
 In Node.js, a `.js` file is treated as an ECMAScript module when the `type` field in the `package.json` file is set to `"module"`. Without it, you can explicitly indicate that a file is an ECMAScript module by using the `.mjs` file extension.
 
-To learn more about the `package.json` file, see [package.json fields](./package-json-fields.md).
+To learn more about the `package.json` file, see [package.json fields](./package-json.md).
 
 ## Differences between CommonJS and ESM
 
