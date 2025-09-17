@@ -1,5 +1,5 @@
 ---
-description: Creating a single-file CommonJS package in Node.js
+description: Guide on how to create a single-file CommonJS package in Node.js
 ---
 
 # Single-file CommonJS package

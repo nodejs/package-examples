@@ -1,5 +1,5 @@
 ---
-description: Introduction to package.json in Node.js.
+description: Introduction to package.json
 ---
 
 <!-- The ultimate source of truth should be https://nodejs.org/api/packages.html. Here we just give a brief overview. -->

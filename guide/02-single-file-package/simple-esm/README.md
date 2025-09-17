@@ -1,5 +1,5 @@
 ---
-description: Creating a single-file ESM package in Node.js
+description: Guide on how to create a single-file ESM packages in Node.js
 ---
 
 # Single-file ESM package

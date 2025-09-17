@@ -1,10 +1,10 @@
 ---
-description: Introduction to the CommonJS and ECMAScript module systems in Node.js.
+description: Introcution to CommonJS and ECMAScript modules (ESM) in Node.js
 ---
 
 <!-- The ultimate source of truth should be https://nodejs.org/api/modules.html and https://nodejs.org/api/esm.html. Here we just give a brief overview. -->
 
-# Introduction to the module systems in Node.js
+# CommonJS and ECMAScript modules (ESM)
 
 When writing Node.js applications, oftentimes you may find yourself developing utilities or libraries that you want to share with other people, or with other parts of your application.
 
@@ -155,7 +155,3 @@ Contrary to popular belief, ESM does not have to be asynchronously loaded. Since
 In Node.js, ESM and CommonJS can load each other. See [Chapter 4: CommonJS and ESM interoperability](../04-cjs-esm-interop/).
 
 Nowadays, CommonJS is still present in many older code bases. When you are publishing code from an older code base, or maintaining a library that has a bit of history, you may still encounter this format. Nonetheless, it's recommended to use ECMAScript modules (ESM) for new code, as they are the standardized module system in JavaScript and are supported in both Node.js and browsers.
-
-## What's next?
-
-Now that we know what these files should look like, let's look at how we can structure these files into a package.
