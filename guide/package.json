@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "honkit serve",
-    "build": "honkit build"
+    "build": "honkit build",
+    "test": "node --test"
   },
   "license": "MIT",
   "devDependencies": {

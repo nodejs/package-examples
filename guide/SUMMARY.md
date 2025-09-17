@@ -3,13 +3,13 @@
 ### Getting started
 
 * [CommonJS and ESM](01-getting-started/commonjs-and-esm.md)
-* [Introduction to `package.json`](01-getting-started/package-json-fields.md)
+* [Introduction to `package.json`](01-getting-started/package-json.md)
 
 ### Basics
 
-* [Single file package configurations](02-single-file-package/README.md)
-    * [Classic CommonJS package](02-single-file-package/classic-commonjs/README.md)
-    * [Simple ESM package](02-single-file-package/simple-esm/README.md)
+* [Single-file package configurations](02-single-file-package/README.md)
+    * [Single-file CommonJS package](02-single-file-package/classic-commonjs/README.md)
+    * [Single-file ESM package](02-single-file-package/simple-esm/README.md)
 * [Multi-file package configurations](03-multi-file-package/README.md)
     * [`"exports"` field](03-multi-file-package/exports-field.md)
     * [`"files"` field](03-multi-file-package/files-field.md)

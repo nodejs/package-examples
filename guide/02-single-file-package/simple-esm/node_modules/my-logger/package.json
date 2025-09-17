@@ -1,0 +1,9 @@
+{
+  "name": "my-logger",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./logger.js",
+    "./package.json": "./package.json"
+  }
+}
