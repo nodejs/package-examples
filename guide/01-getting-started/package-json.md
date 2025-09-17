@@ -138,7 +138,7 @@ The `files` field is an array that specifies which files and directories should 
 }
 ```
 
-It's unnecessary to include `package.json` in the `files` field, as it is always included by default when publishing a package. There are several other files that will always be included, or excluded when the package is published. While different package managers may have slightly different conventions, the most widely accepted behavior can be consulted in the [npm documentation](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#files).
+It's unnecessary to include `package.json` in the `files` field, as it is always included by default when publishing a package. There are several other files that will always be included, or excluded when the package is published. Different package managers may have slightly different conventions when it comes to this field, consider consulting the documentation of the package manager of your choice, e.g. if you use `npm`, check out [the npm documentation](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#files).
 
 ## `package.json` lookups
 
