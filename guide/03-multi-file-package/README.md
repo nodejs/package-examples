@@ -59,6 +59,8 @@ The `package.json` file for this package would typically look like this:
 
 When this package is published, because `test` is not listed in `files`, this directory will be excluded in the published package. Here we use `npm pack` to verify it (though this convention is generally respected by most package managers):
 
+<!-- TODO(ljharb): this documents the most typical configuration using the files field. Some maintainers may prefer to use package manager-specific features like .npmignore. Add a separate page to discuss its pros/cons, and link to it here. -->
+
 ```
 $ cd /path/to/my-logger
 $ npm pack
