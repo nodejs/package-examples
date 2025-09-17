@@ -6,7 +6,7 @@ description: Creating a single-file CommonJS package in Node.js
 
 This is the most traditional way of creating a package in Node.js, using the CommonJS module system. This is less commonly used by new packages these days, but you may still encounter many existing packages using this approach.
 
-In this example, we have a package named `my-logger` that exports a `Logger` class. The package consists of a single file, `logger.js`, which contains the implementation of the `Logger` class.
+In this example, the `my-logger` package consists of a single file, logger.js, that implements and exports the `Logger` class.
 
 ```js
 // logger.js
