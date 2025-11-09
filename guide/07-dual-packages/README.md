@@ -2,7 +2,6 @@
 description: Guide on dual CommonJS/ESM package distributions
 ---
 
-> [!NOTE]
 > The following document is copied from the old Node.js package.md as-is, it will be here
 > temporarily until we work out better and more up-to-date examples and documentation
 > in this repository.
