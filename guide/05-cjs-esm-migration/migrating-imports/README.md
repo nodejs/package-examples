@@ -149,8 +149,7 @@ Can be migrated to ESM like this:
 
 ```js
 // after/node_modules/my-module/kernel-info.js
-const isRunningOnNode =
-  (typeof process === 'object' && typeof process.getBuiltinModule === 'function');
+const isRunningOnNode = typeof process?.getBuiltinModule === 'function';
 function getKernelInfo() {  // A synchronous API that has to remain synchronous
   if (isRunningOnNode) {
     // Running on Node.js as ESM, load the 'os' built-in via getBuiltinModule().

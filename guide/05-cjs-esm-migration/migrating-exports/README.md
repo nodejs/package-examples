@@ -69,7 +69,7 @@ export { Baz };
 
 ### Migrating `module.exports = notAnObjectLiteral`
 
-If `module.exports` is set to a value that is not an object literal, use the [`export default` syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export#using_the_default_export). For example:
+If `module.exports` is set to a value that is not an object literal, e.g. a function or a class, use the [`export default` syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export#using_the_default_export). For example:
 
 ```js
 // before/node_modules/my-module/default-export.js

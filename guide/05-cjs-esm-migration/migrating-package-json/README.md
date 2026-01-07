@@ -8,36 +8,41 @@ Examples in this chapter can be found [here](https://github.com/nodejs/package-e
 
 ## The `"type"` field
 
-By default, Node.js treats `.js` files as CommonJS for backward compatibility. This can be overriden with the `"type"` field in the nearest `package.json`.
+When migrating a CommonJS package to ESM, there are two options to inform Node.js that the JavaScript files should be treated as ESM:
 
-If a package is migrated to ESM and the ESM code remains in `.js` files, the `"type"` field in `package.json` should be explicitly set to `"module"`.
+- Use the `.mjs` file extension for ESM files.
+- Set the `"type"` field in `package.json` to `"module"`.
 
 For example, a CommonJS package might look like this before migration:
 
 ```
 my-logger/
-├── index.js     // Contains CommonJS code
-└── package.json  // Either contains "type": "commonjs",
-                  // or does not have "type" field and relies on the "commonjs" default
+├── index.js       // Contains CommonJS code
+├── utils.js       // Contains CommonJS code
+└── package.json   // Either contains "type": "commonjs",
+                   // or does not have "type" field and relies on the "commonjs" default
 ```
 
-After migration, if ESM source remains in `.js`, set `"type": "module"` explicitly so Node.js loads `.js` files as ESM:
-
-```
-my-logger/
-├── index.js     // Migrated to ESM code now
-└── package.json  // Needs to explicitly specify "type": "module" now
-```
-
-If you can’t set `"type": "module"` for some reason, use the `.mjs` extension for migrated files. This may be useful during gradual migrations when the package is partially migrated to ESM while some `.js` files remain CommonJS.
+After migrating some or all files to ESM, the migrated files can be renamed to use the `.mjs` extension. If the `package.json` continues to have `"type": "commonjs"` or leaves the `"type"` field absent, Node.js will still treat any remaining `.js` files as CommonJS modules.
 
 ```
 my-logger/
-├── index.mjs     // Migrated to ESM code now
+├── index.mjs     // Migrated to ESM
 ├── utils.js      // Still CommonJS, pending migration
 └── package.json  // Either contains "type": "commonjs",
                   // or does not have "type" field and relies on the "commonjs" default
 ```
+
+Alternatively, to keep using the `.js` extension after migrating to ESM, set the `"type"` field in `package.json` to `"module"`. This tells Node.js to treat all `.js` files in the package as ESM. See [the `type` field](../../01-getting-started/package-json.md#the-type-field) for more details.
+
+```
+my-logger/
+├── index.js      // Migrated to ESM
+├── utils.js      // Migrated to ESM
+└── package.json  // Contains "type": "module"
+```
+
+The `"type": "module"` approach allows retaining the `.js` extension, which can be useful when filenames cannot be changed or when files need to be consumed by tools that expect the `.js` extension. However, this approach incurs a performance overhead during module loading compared to using the `.mjs` extension, because Node.js must read the `package.json` to determine the module type. Choose the approach that best fits your project's needs.
 
 ## The `"engines"` field
 
