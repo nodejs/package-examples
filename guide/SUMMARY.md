@@ -20,6 +20,7 @@
     * [Migrating context-local variables](05-cjs-esm-migration/migrating-context-local-variables/README.md)
     * [Migrating package.json](05-cjs-esm-migration/migrating-package-json/README.md)
 
+<!--
 ### Packages with a build step
 
 * [Bundling](06-bundling/README.md)
@@ -38,3 +39,4 @@
 
 * [Q&A](q-n-a/README.md)
 * [Troubleshooting](troubleshooting/README.md)
+* -->
