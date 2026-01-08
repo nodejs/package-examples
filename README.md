@@ -4,7 +4,7 @@ This project is meant to document common package shipping patterns, the pros and
 
 The guide on package configuration is published at <https://nodejs.github.io/package-examples/>. Source document and examples are in the [guide/](./guide/) directory.
 
-See [contribution guide](./CONTRIBUTING.md) on how to contribute to this project.
+This guide is still in early stages. Contributions are welcome! See [contribution guide](./CONTRIBUTING.md) on how to contribute to this project.
 
 The following teams have maintainer access to this repository:
 
