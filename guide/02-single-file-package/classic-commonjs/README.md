@@ -58,7 +58,7 @@ Or, a ESM consumer can load this package like this:
 
 ```js
 // app.mjs
-const { Logger } = require('my-logger');
+import { Logger } from 'my-logger';
 const logger = new Logger('debug');
 logger.error('This is an error message');
 ```
