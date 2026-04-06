@@ -1,3 +1,6 @@
 {
-  "title": "Node.js package configuration guide"
+  "title": "Node.js package configuration guide",
+  "plugins": [
+    "include-codeblock"
+  ]
 }

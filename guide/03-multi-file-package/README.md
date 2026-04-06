@@ -17,45 +17,23 @@ my-logger/
 └── package.json
 ```
 
-```js
-// lib/utils.js
-export const LEVELS = { /* ... log levels ... */ };
-```
+`lib/utils.js`:
 
-```js
-// src/logger.js
-import { LEVELS } from '../lib/utils.js';
-export class Logger {
-  // ... Logger implementation
-};  
-```
+[import:'abbrev,abbrev_end'](example/node_modules/my-logger/lib/utils.js)
 
-```js
-// index.js
-export { Logger } from './src/logger.js';
-```
+`src/logger.js`:
+
+[import:'logger_start,logger_end'](example/node_modules/my-logger/src/logger.js)
+
+`index.js`:
+
+[import](example/node_modules/my-logger/index.js)
 
 The `package.json` file for this package would typically look like this:
 
-```json
-{
-  "name": "my-logger",
-  "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "test": "node --test"
-  },
-  "exports": {
-    ".": "./index.js",
-    "./package.json": "./package.json"
-  },
-  "files": [
-    "lib/",
-    "src/",
-    "index.js"
-  ]
-}
-```
+`package.json`:
+
+[import](example/node_modules/my-logger/package.json)
 
 When this package is published, because `test` is not listed in `files`, this directory will be excluded in the published package. Here we use `npm pack` to verify it (though this convention is generally respected by most package managers):
 
@@ -74,26 +52,14 @@ package/package.json
 
 In addition, when users load this package, they can only access `index.js` and `package.json`, but not the internal files. This allows maintainers to change the internal structure of the package without breaking users who may come to assume the internal files are part of the public API.
 
-```js
-// app.mjs
-import { Logger } from 'my-logger';
-const logger = new Logger('debug');
-logger.error('This is an error message');
+`app.mjs`:
 
-// This will throw ERR_PACKAGE_PATH_NOT_EXPORTED
-await import('my-logger/lib/utils.js');
-```
+[import](example/app.mjs)
 
 This works similarly for CommonJS consumers (since the package is ESM, they will need to use Node.js 20 or above to load it from `require()`):
 
-```js
-// app.cjs
-const { Logger } = require('my-logger');
-const logger = new Logger('debug');
-logger.error('This is an error message');
+`app.cjs`:
 
-// This will throw ERR_PACKAGE_PATH_NOT_EXPORTED
-require('my-logger/lib/utils.js');
-```
+[import:'doc'](example/app.cjs)
 
 You can find an example of this package on [GitHub](https://github.com/nodejs/package-examples/tree/main/guide/03-multi-file-package/example).

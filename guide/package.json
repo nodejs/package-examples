@@ -9,6 +9,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "gitbook-plugin-include-codeblock": "^3.2.3",
     "honkit": "^6.0.2"
   }
 }

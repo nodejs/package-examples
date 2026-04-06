@@ -8,26 +8,15 @@ This is the more modern way of creating a package in Node.js, using the ESM syst
 
 In this example, we have a package named `my-logger` that exports a `Logger` class. The package consists of a single file, `logger.js`, which contains the implementation of the `Logger` class.
 
-```js
-// logger.js
-export class Logger {
-  // ... Logger implementation
-};
-```
+`logger.js`:
+
+[import:'logger_start,logger_end'](node_modules/my-logger/logger.js)
 
 The `package.json` file for this package looks like this:
 
-```json
-{
-  "name": "my-logger",
-  "version": "1.0.0",
-  "type": "module",
-  "exports": {
-    ".": "./logger.js",
-    "./package.json": "./package.json"
-  }
-}
-```
+`package.json`:
+
+[import](node_modules/my-logger/package.json)
 
 So the package structure is as follows:
 
@@ -46,21 +35,15 @@ In addition, we have included an export for `./package.json` in the `"exports"` 
 
 When users load this package, they can do so like this:
 
-```js
-// app.mjs
-import { Logger } from 'my-logger';
-const logger = new Logger('debug');
-logger.error('This is an error message');
-```
+`app.mjs`:
+
+[import](app.mjs)
 
 Or, from Node.js 20 and above, CommonJS consumers can also load a ESM package like this:
 
-```js
-// app.cjs
-const { Logger } = require('my-logger');
-const logger = new Logger('debug');
-logger.error('This is an error message');
-```
+`app.cjs`:
+
+[import:'doc'](app.cjs)
 
 Usually, a published package is placed in a `node_modules` directory of a project. When you use `import 'my-logger'`, Node.js will start looking for a directory named `my-logger` in the nearest `node_modules` directory up until it reaches the root of the filesystem. The module resolution algorithm for ESM is slightly different from the one used for loading CommonJS modules. You can refer to the [Node.js documentation](https://nodejs.org/api/esm.html#resolution-algorithm-specification) for more details.
 

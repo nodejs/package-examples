@@ -138,4 +138,17 @@ describe('shipping-cjs-for-esm', () => {
     assert.notStrictEqual(result.status, 0);
     assert.match(result.stderr, /SyntaxError: Named export 'Logger' not found/);
   });
+
+  it('should fail when importing non-existent named export from my-logger', () => {
+    const result = spawnSync(
+      process.execPath,
+      ['app-import-non-existent-name.mjs'],
+      {
+        cwd: import.meta.dirname,
+        encoding: 'utf-8',
+      },
+    );
+    assert.notStrictEqual(result.status, 0);
+    assert.match(result.stderr, /SyntaxError: Named export 'DoesNotExist' not found/);
+  });
 });

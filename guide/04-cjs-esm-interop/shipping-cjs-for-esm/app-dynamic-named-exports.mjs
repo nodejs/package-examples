@@ -1,6 +1,9 @@
+
+//! [doc]
 const namespace = await import('my-logger-module-exports-assignment');
 const { Logger, LoggerAlias } = namespace;
 const { default: defaultLogger } = namespace;
+//! [doc]
 
 defaultLogger.log('Hello from dynamic import with named exports');
 

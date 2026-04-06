@@ -14,46 +14,21 @@ Examples in this chapter can be found [here](https://github.com/nodejs/package-e
 
 Consider the following ESM provider:
 
-```js
-// node_modules/my-logger/index.js
-export class Logger {
-  // ... Logger implementation
-};
-const logger = new Logger('debug');
-export default logger;
-```
+`node_modules/my-logger/index.js`:
+
+[import:'logger_start,logger_end'](node_modules/my-logger/index.js)
 
 Dynamic `import()` returns the module namespace object:
 
-```js
-// app.mjs
-// The namespace object looks like { Logger: [class Logger], default: Logger {} }
-const namespace = await import('my-logger');
+`app.mjs`:
 
-// The named export `Logger` is available by name on the namespace object.
-const { Logger } = namespace;
-
-// The default export logger instance is available as the `default` property.
-const { default: logger } = namespace;
-
-console.log(logger instanceof Logger);  // true
-```
+[import:'doc'](app.mjs)
 
 Likewise, `require()` returns the module namespace object:
 
-```js
-// app.cjs
-// The namespace object looks like { Logger: [class Logger], default: Logger {} }
-const namespace = require('my-logger');
+`app.cjs`:
 
-// The named export `Logger` is available by name on the namespace object.
-const { Logger } = namespace;
-
-// The default export logger instance is available as the `default` property.
-const { default: logger } = namespace;
-
-console.log(logger instanceof Logger);  // true
-```
+[import:'doc'](app.cjs)
 
 ### Customize `require(esm)` via the `'module.exports'` export
 
@@ -61,64 +36,44 @@ If the ESM has an export named `'module.exports'`, `require(esm)` returns that v
 
 Let's revisit the logger example and add a named export `'module.exports'` for the default logger instance:
 
-```js
-// node_modules/my-logger-with-default-export/index.js
-export class Logger {
-  // ... Logger implementation
-};
-const logger = new Logger('debug');
-export default logger;
+`node_modules/my-logger-with-default-export/index.js`:
 
-// Exposes the Logger class as a destructurable property on the default export.
-logger.Logger = Logger;
-export { logger as 'module.exports' };
-```
+[import:'logger_start,logger_end'](node_modules/my-logger-with-default-export/index.js)
 
 ESM consumers will see that the results from static or dynamic import are unchanged, but for CommonJS consumers, `require()` now returns the default `logger` instance, as specified by the `'module.exports'` export:
 
-```js
-// app-with-default-export.cjs
-const { Logger } = require('my-logger-with-default-export');  // [class Logger]
-// Logger {} - no need to destructure from `default`
-const logger = require('my-logger-with-default-export');
-```
+`app-with-default-export.cjs`:
+
+[import:'doc'](app-with-default-export.cjs)
 
 This aligns CommonJS usage with the ESM equivalent:
 
-```js
-// app-with-default-export.mjs
-import { Logger } from 'my-logger-with-default-export';  // [class Logger]
-import logger from 'my-logger-with-default-export';  // Logger {}
-```
+`app-with-default-export.mjs`:
+
+[import:'doc'](app-with-default-export.mjs)
 
 ## Limitations
 
 When shipping ESM for CommonJS via `require(esm)`, note:
 
 1. **Synchronous graph only**: `require(esm)` is synchronous; When the ESM loaded by `require()` or any of its dependencies contain top‑level `await`, an [`ERR_REQUIRE_ASYNC_MODULE`](https://nodejs.org/api/errors.html#err_require_async_module) is thrown.
-2. **No ESM↔CJS cycles**: To maintain [ECMAScript invariants](https://tc39.es/ecma262/#sec-innermoduleevaluation), cycles that cross the CommonJS/ESM boundary are unsupported and throw [`ERR_REQUIRE_CYCLE_MODULE`](https://nodejs.org/api/errors.html#err_require_cycle_module).
+2. **No ESM <-> CJS cycles**: To maintain [ECMAScript invariants](https://tc39.es/ecma262/#sec-innermoduleevaluation), cycles that cross the CommonJS/ESM boundary are unsupported and throw [`ERR_REQUIRE_CYCLE_MODULE`](https://nodejs.org/api/errors.html#err_require_cycle_module).
 
-  ```js
-  // cycle-error/a.mjs
-  import './b.cjs';
-  ```
+`cycle-error/a.mjs`:
 
-  ```js
-  // cycle-error/b.cjs
-  require('./a.mjs');  // Throws ERR_REQUIRE_CYCLE_MODULE
-  ```
+[import](cycle-error/a.mjs)
 
-  A typical workaround would be loading one side lazily (not at module load time).
+`cycle-error/b.cjs`:
 
-  ```js
-  // cycle-lazy/b.cjs
-  let a;
-  function runOnlyWhenUsed() {
-    a = require('./a.mjs');
-  }
-  ```
+[import](cycle-error/b.cjs)
 
-  Only cross‑boundary cycles fail; pure CommonJS or pure ESM cycles still work.
+A typical workaround would be loading one side lazily (not at module load time).
+
+`cycle-lazy/b.cjs`:
+
+[import:'doc'](cycle-lazy/b.cjs)
+
+Only cross‑boundary cycles fail; pure CommonJS or pure ESM cycles still work.
 
 ## `require(esm)` feature detection
 
@@ -128,24 +83,9 @@ When shipping ESM for CommonJS via `require(esm)`, note:
 
 In code, use [`process.features.require_module`](https://nodejs.org/api/process.html#processfeaturesrequire_module) to detect support. This helps when an ESM dependency is optional and the consumer code must be synchronous.
 
-```js
-// log-with-feature-detection.js
-// Using the .js suffix for cross-environment support.
-let logger;
-// Suppose this function has to be synchronous for some reason.
-function logError(msg) {
-  // If loaded as CJS by Node.js versions where require(esm) is supported, enhance it.
-  if (globalThis?.process?.features?.require_module) {
-    logger ??= new (require('my-logger').Logger)('error');
-    logger.log(msg);
-  } else {
-    // In older Node.js versions, or in other environments like browsers,
-    // fall back to something less fancy.
-    console.error(msg);
-  }
-}
-logError('An error occurred');
-```
+`log-with-feature-detection.js`:
+
+[import](log-with-feature-detection.js)
 
 ## Useful `package.json` fields
 

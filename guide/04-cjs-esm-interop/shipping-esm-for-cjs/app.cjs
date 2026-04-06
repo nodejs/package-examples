@@ -1,3 +1,5 @@
+
+//! [doc]
 // The namespace object looks like { Logger: [class Logger], default: Logger {} }
 const namespace = require('my-logger');
 
@@ -8,4 +10,5 @@ const { Logger } = namespace;
 const { default: logger } = namespace;
 
 console.log(logger instanceof Logger);  // true
+//! [doc]
 logger.log('Hello from CommonJS requiring ESM');

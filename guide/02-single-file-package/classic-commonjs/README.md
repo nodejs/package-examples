@@ -8,27 +8,15 @@ This is the most traditional way of creating a package in Node.js, using the Com
 
 In this example, the `my-logger` package consists of a single file, logger.js, that implements and exports the `Logger` class.
 
-```js
-// logger.js
-class Logger {
-  // ... Logger implementation
-};
-exports.Logger = Logger;
-```
+`logger.js`:
+
+[import:'logger_start,logger_end'](node_modules/my-logger/logger.js)
 
 The `package.json` file for this package looks like this:
 
-```json
-{
-  "name": "my-logger",
-  "version": "1.0.0",
-  "type": "commonjs",
-  "exports": {
-    ".": "./logger.js",
-    "./package.json": "./package.json"
-  }
-}
-```
+`package.json`:
+
+[import](node_modules/my-logger/package.json)
 
 So the package structure is as follows:
 
@@ -47,21 +35,15 @@ In addition, we have included an export for `./package.json` in the `"exports"` 
 
 When users load this package, they can do so like this:
 
-```js
-// app.cjs
-const { Logger } = require('my-logger');
-const logger = new Logger('debug');
-logger.error('This is an error message');
-```
+`app.cjs`:
+
+[import:'doc'](app.cjs)
 
 Or, a ESM consumer can load this package like this:
 
-```js
-// app.mjs
-import { Logger } from 'my-logger';
-const logger = new Logger('debug');
-logger.error('This is an error message');
-```
+`app.mjs`:
+
+[import](app.mjs)
 
 Usually, a published package is placed in a `node_modules` directory of a project. When you use `require('my-logger')`, Node.js will start looking for a directory named `my-logger` in the nearest `node_modules` directory up until it reaches the root of the filesystem. You can refer to the [Node.js documentation](https://nodejs.org/api/modules.html#all-together) for more details about the module resolution algorithm.
 

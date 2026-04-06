@@ -14,29 +14,21 @@ When a CommonJS module is imported into an ESM module, its entire `module.export
 
 For example, consider a CommonJS package named `my-logger` that exports a `Logger` class:
 
-```js
-// node_modules/my-logger/index.js
-class Logger {
-  // ... Logger implementation
-};
-const defaultLogger = new Logger('debug');
-// This is equivalent to `export default defaultLogger` in ESM
-module.exports = defaultLogger;
-```
+`node_modules/my-logger/index.js`:
+
+[import:'logger_start,logger_end'](node_modules/my-logger/index.js)
 
 The `module.exports` object is returned to a CommonJS consumer using `require()`:
 
-```js
-// app.cjs
-const defaultLogger = require('my-logger');  // Returns the `module.exports` object
-```
+`app.cjs`:
+
+[import:'doc'](app.cjs)
 
 And to an ESM consumer using the [default import syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#default_import):
 
-```js
-// app-default-export.mjs
-import defaultLogger from 'my-logger';
-```
+`app-default-export.mjs`:
+
+[import:'doc'](app-default-export.mjs)
 
 ### Dynamic `import()` and namespace import
 
@@ -44,21 +36,15 @@ Unlike `require()`, which returns the `module.exports` object directly, the ECMA
 
 Node.js maps `module.exports` to the ESM `default` export. With dynamic `import()`, `module.exports` is available as the `default` property on the namespace object:
 
-```js
-// app-dynamic-import.mjs
-// When dynamic `import()` is used, get the default export from the `default` property.
-// By contrast, `require('my-logger')` returns `module.exports` directly.
-const { default: defaultLogger } = await import('my-logger');
-```
+`app-dynamic-import.mjs`:
+
+[import:'doc'](app-dynamic-import.mjs)
 
 The same applies to the [namespace import syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#namespace_import):
 
-```js
-// app-namespace-import.mjs
-import * as namespace from 'my-logger';
-// The `module.exports` object is only accessible via the `default` property.
-const { default: defaultLogger } = namespace;
-```
+`app-namespace-import.mjs`:
+
+[import:'doc'](app-namespace-import.mjs)
 
 ## Named imports from CommonJS in ESM
 
@@ -66,126 +52,65 @@ In Node.js, a CommonJS module's exports can also be imported by name in ESM, if 
 
 The ESM specification requires named imports to be checked. If a module imports an export by name from another module, but the providing module does not export that name, an error must be thrown before the code is executed.
 
-```js
-// app-import-non-existent-name.mjs
-// Throws a SyntaxError before any code in my-logger or in this script is executed
-import { DoesNotExist } from 'my-logger';
-```
+`app-import-non-existent-name.mjs`:
+
+[import](app-import-non-existent-name.mjs)
 
 Node.js statically analyzes CommonJS to detect export names. Because CommonJS exports can be dynamic, detection only works for common, static patterns.
 
 For example, assignments to `exports` with static names can be detected:
 
-```js
-// node_modules/my-logger-exports-assignment/index.js
-class Logger {
-  // ... Logger implementation
-};
+`node_modules/my-logger-exports-assignment/index.js`:
 
-// This can be thought of as `export { Logger as Logger }` in ESM
-exports.Logger = Logger;
-// This can be thought of as `export { Logger as LoggerAlias }` in ESM
-exports.LoggerAlias = Logger;
-```
+[import:'logger_start,logger_end'](node_modules/my-logger-exports-assignment/index.js)
 
 An ESM consumer can load these exports by name:
 
-```js
-// app-import-exports-assignment.mjs
-// The detected properties on the `module.exports` object from the
-// CommonJS provider can be imported by name.
-import { Logger, LoggerAlias } from 'my-logger-exports-assignment';
-```
+`app-import-exports-assignment.mjs`:
+
+[import:'doc'](app-import-exports-assignment.mjs)
 
 Assignment to `module.exports` followed by adding properties to it can also be detected:
 
-```js
-// node_modules/my-logger-module-exports-assignment/index.js
-class Logger {
-  // ... Logger implementation
-};
-const defaultLogger = new Logger('debug');
-// This can be thought of as:
-// `export { defaultLogger as default, Logger, Logger as LoggerAlias }`
-// in ESM.
-module.exports = defaultLogger;
-module.exports.Logger = Logger;
-module.exports.LoggerAlias = Logger;
-```
+`node_modules/my-logger-module-exports-assignment/index.js`:
+
+[import:'logger_start,logger_end'](node_modules/my-logger-module-exports-assignment/index.js)
 
 An ESM consumer can load these exports by name:
 
-```js
-// app-import-module-exports-assignment.mjs
-// The detected properties on the `module.exports` object from the
-// CommonJS provider can be imported by name.
-import { Logger, LoggerAlias } from 'my-logger-module-exports-assignment';
-// The `module.exports` object from the CommonJS provider can be
-// imported as if it's the default export.
-import defaultLogger from 'my-logger-module-exports-assignment';
-```
+`app-import-module-exports-assignment.mjs`:
+
+[import:'doc'](app-import-module-exports-assignment.mjs)
 
 Or destructure after using namespace import:
 
-```js
-// app-namespace-named-exports.mjs
-// The detected named exports on the `module.exports` object are properties on the
-// module namespace object, while the `module.exports` object is in
-// a property named `default`.
-import * as namespace from 'my-logger-module-exports-assignment';
-const { Logger, LoggerAlias } = namespace;
-const { default: defaultLogger } = namespace;
-```
+`app-namespace-named-exports.mjs`:
+
+[import:'doc'](app-namespace-named-exports.mjs)
 
 Or with dynamic `import()`:
 
-```js
-// app-dynamic-named-exports.mjs
-const namespace = await import('my-logger-module-exports-assignment');
-const { Logger, LoggerAlias } = namespace;
-const { default: defaultLogger } = namespace;
-```
+`app-dynamic-named-exports.mjs`:
+
+[import:'doc'](app-dynamic-named-exports.mjs)
 
 Reassigned `module.exports` can be trickier. If reassigned to an object literal, its static properties are still available as named exports:
 
-```js
-// node_modules/my-logger-object-literal/index.js
-class Logger {
-  // ... Logger implementation
-};
-module.exports = {
-  Logger,  // This can be detected as a named export
-};
-```
+`node_modules/my-logger-object-literal/index.js`:
+
+[import:'logger_start,logger_end'](node_modules/my-logger-object-literal/index.js)
 
 Dynamic naming defeats static detection. For example:
 
-```js
-// node_modules/my-logger-dynamic/index.js
-class Logger {
-  // ... Logger implementation
-};
+`node_modules/my-logger-dynamic/index.js`:
 
-module['exports'] = { Logger };  // ❌ non-dot access to module.exports
-
-const e = module.exports;
-e.Logger = Logger;  // ❌ assignment via an alias
-
-const key = 'Logger';
-module.exports[key] = Logger;  // ❌ assignment via a computed property
-
-Object.defineProperty(module.exports, 'Logger', {  // ❌ assignment via a property descriptor
-  enumerable: true,
-  get: () => Logger,
-});
-```
+[import:'logger_start,logger_end'](node_modules/my-logger-dynamic/index.js)
 
 These cannot be imported by name in ESM. For example:
 
-```js
-// app-dynamic-fail.mjs
-import { Logger } from 'my-logger-dynamic';
-```
+`app-dynamic-fail.mjs`:
+
+[import:'doc'](app-dynamic-fail.mjs)
 
 This throws:
 

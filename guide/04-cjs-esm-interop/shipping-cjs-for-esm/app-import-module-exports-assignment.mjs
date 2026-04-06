@@ -1,9 +1,12 @@
+
+//! [doc]
 // The detected properties on the `module.exports` object from the
 // CommonJS provider can be imported by name.
 import { Logger, LoggerAlias } from 'my-logger-module-exports-assignment';
 // The `module.exports` object from the CommonJS provider can be
 // imported as if it's the default export.
 import defaultLogger from 'my-logger-module-exports-assignment';
+//! [doc]
 
 defaultLogger.log('Hello from default logger');
 

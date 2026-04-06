@@ -21,67 +21,53 @@ In CommonJS, exports are typically done by writing to [the `module.exports` obje
 
 Static property assignments to `exports` or `module.exports` can be directly translated to [named exports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export#using_named_exports) in ESM. For example, if a CommonJS module contains:
 
-```js
-// before/node_modules/my-module/named-only.js
-class Foo { /* ... */ }
+`before/node_modules/my-module/named-only.js`:
 
-exports.Foo = Foo;
-exports.bar = 'bar';
-```
+[import:'main'](before/node_modules/my-module/named-only.js)
 
 This can be migrated to direct `export` statements:
 
-```js
-// after/node_modules/my-module/named-only.js
-export class Foo { /* ... */ };
-export const bar = 'bar';
-```
+`after/node_modules/my-module/named-only.js`:
+
+[import:'main'](after/node_modules/my-module/named-only.js)
 
 Aliases can be migrated using the `export ... as ...` syntax:
 
-```js
-// before/node_modules/my-module/named-only.js
-exports.FooAlias = Foo;
-```
+`before/node_modules/my-module/named-only.js`:
 
-```js
-// after/node_modules/my-module/named-only.js
-export { Foo as FooAlias };
-```
+[import:'alias'](before/node_modules/my-module/named-only.js)
+
+`after/node_modules/my-module/named-only.js`:
+
+[import:'alias'](after/node_modules/my-module/named-only.js)
 
 ### Migrating `module.exports = { foo, ... }`
 
 Some CommonJS modules provide named exports by reassigning `module.exports` to an object literal with static value properties. This can be migrated with the `export { ... }` syntax. For example:
 
-```js
-// before/node_modules/my-module/named-only-object-literal.js
-class Baz { /* ... */ }
-module.exports = { Baz };
-```
+`before/node_modules/my-module/named-only-object-literal.js`:
+
+[import](before/node_modules/my-module/named-only-object-literal.js)
 
 can be migrated to:
 
-```js
-// after/node_modules/my-module/named-only-object-literal.js
-class Baz { /* ... */ }
-export { Baz };
-```
+`after/node_modules/my-module/named-only-object-literal.js`:
+
+[import](after/node_modules/my-module/named-only-object-literal.js)
 
 ### Migrating `module.exports = notAnObjectLiteral`
 
 If `module.exports` is set to a value that is not an object literal, e.g. a function or a class, use the [`export default` syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export#using_the_default_export). For example:
 
-```js
-// before/node_modules/my-module/default-export.js
-module.exports = function qux() {};
-```
+`before/node_modules/my-module/default-export.js`:
+
+[import](before/node_modules/my-module/default-export.js)
 
 can be migrated to ESM as follows:
 
-```js
-// after/node_modules/my-module/default-export.js
-export default function qux() {};
-```
+`after/node_modules/my-module/default-export.js`:
+
+[import:'main'](after/node_modules/my-module/default-export.js)
 
 Note: in this case, additional care must be taken to if backward compatibilty for CommonJS consumers is needed. See the [maintaining backward compatibility section](#for-commonjs-consumers-if-moduleexports-was-reassigned-to-a-non-object-literal) for details.
 
@@ -91,74 +77,57 @@ CommonJS modules can re-export from other modules by assigning properties from t
 
 For example, this CommonJS module:
 
-```js
-// before/node_modules/my-module/re-export-defaults.js
-exports.foo = require('./foo.js');
-exports.bar = require('./bar.js');
-```
+`before/node_modules/my-module/re-export-defaults.js`:
+
+[import](before/node_modules/my-module/re-export-defaults.js)
 
 can be migrated to ESM like this:
 
-```js
-// after/node_modules/my-module/re-export-defaults.js
-export { default as foo } from './foo.js';
-export { default as bar } from './bar.js';
-```
+`after/node_modules/my-module/re-export-defaults.js`:
+
+[import](after/node_modules/my-module/re-export-defaults.js)
 
 ### Re-exporting named exports from internal modules
 
 CommonJS modules can re-export selected named exports from another module:
 
-```js
-// before/node_modules/my-module/re-export-names.js
-const { name1, name2 } = require('./names.js');
-exports.name1 = name1;
-exports.name2 = name2;
-```
+`before/node_modules/my-module/re-export-names.js`:
+
+[import](before/node_modules/my-module/re-export-names.js)
 
 this can be migrated to ESM with [`export ... from` statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export#using_export_from) too:
 
-```js
-// after/node_modules/my-module/re-export-names.js
-export { name1, name2 } from './names.js';
-```
+`after/node_modules/my-module/re-export-names.js`:
+
+[import](after/node_modules/my-module/re-export-names.js)
 
 ### Re-exporting all exports from internal modules
 
 CommonJS modules may re-export all exports from another module:
 
-```js
-// before/node_modules/my-module/re-export-all.js
-module.exports = require('./named-only-object-literal.js');
-```
+`before/node_modules/my-module/re-export-all.js`:
+
+[import](before/node_modules/my-module/re-export-all.js)
 
 To migrate to ESM, use `export * from` for named exports and add `export { default } from` for the default export omitted by `export * from`:
 
-```js
-// after/node_modules/my-module/re-export-all.js
-export * from './named-only-object-literal.js';
-export { default } from './named-only-object-literal.js';
-```
+`after/node_modules/my-module/re-export-all.js`:
+
+[import](after/node_modules/my-module/re-export-all.js)
 
 ### Aggregating named exports from multiple modules
 
 If the CommonJS module aggregates exports from multiple internal modules:
 
-```js
-// before/node_modules/my-module/re-export-aggregate.js
-module.exports = {
-  ...require('./debug-names.js'),
-  ...require('./log-names.js'),
-};
-```
+`before/node_modules/my-module/re-export-aggregate.js`:
+
+[import](before/node_modules/my-module/re-export-aggregate.js)
 
 it can be migrated to ESM like this:
 
-```js
-// after/node_modules/my-module/re-export-aggregate.js
-export * from './debug-names.js';
-export * from './log-names.js';
-```
+`after/node_modules/my-module/re-export-aggregate.js`:
+
+[import](after/node_modules/my-module/re-export-aggregate.js)
 
 ## Maintaining backward compatibility
 
@@ -170,48 +139,31 @@ To maintain compatibility for ESM consumers, ESM migrated from CommonJS should a
 
 Consider the following CommonJS module:
 
-```js
-// before/node_modules/my-module/named-only.js
-class Foo { /* ... */ }
+`before/node_modules/my-module/named-only.js`:
 
-exports.Foo = Foo;
-exports.bar = 'bar';
-exports.FooAlias = Foo;
-```
+[import:'main,alias'](before/node_modules/my-module/named-only.js)
 
 If only convert the named exports:
 
-```js
-// after/node_modules/my-module/named-only-partial.js
-export class Foo { /* ... */ };
-export const bar = 'bar';
-export { Foo as FooAlias };
-```
+`after/node_modules/my-module/named-only-partial.js`:
+
+[import](after/node_modules/my-module/named-only-partial.js)
 
 the default export would be missing after migration, which would break ESM consumers that have been using the automatically added default export from the CommonJS external interface::
 
-```js
-// after/app-importing-default-from-named-only-partial.mjs
-// This used to be `module.exports` when the module was CommonJS,
-// but after the migration, the default export is missing unless explicitly provided,
-// so it would throw a SyntaxError.
-import myModule from 'my-module/named-only-partial';
-```
+`after/app-importing-default-from-named-only-partial.mjs`:
+
+[import](after/app-importing-default-from-named-only-partial.mjs)
 
 To close this gap, provide a default export in the migrated ESM, which typically aggregates the named exports:
 
-```js
-// after/node_modules/my-module/named-only.js
-export class Foo { /* ... */ };
-export const bar = 'bar';
-export { Foo as FooAlias };
-export default { Foo, bar, FooAlias: Foo };  // To be backward compatible with ESM consumers.
-```
+`after/node_modules/my-module/named-only.js`:
 
-```js
-// after/app-importing-default-from-named-only.mjs
-import myModule from 'my-module/named-only';
-```
+[import:'main,alias,compat'](after/node_modules/my-module/named-only.js)
+
+`after/app-importing-default-from-named-only.mjs`:
+
+[import](after/app-importing-default-from-named-only.mjs)
 
 ### If `module.exports` was reassigned to a non-object-literal
 
@@ -219,47 +171,37 @@ If the CommonJS module previously reassigned `module.exports` to a value, unless
 
 For example, if the CommonJS module contained:
 
-```js
-// before/node_modules/my-module/default-export.js
-module.exports = function qux() {};
-```
+`before/node_modules/my-module/default-export.js`:
+
+[import](before/node_modules/my-module/default-export.js)
 
 as mentioned before, this is typically migrated to ESM like below.
 
-```js
-// after/node_modules/my-module/default-export-partial.js
-export default function qux() {};
-```
+`after/node_modules/my-module/default-export-partial.js`:
+
+[import](after/node_modules/my-module/default-export-partial.js)
 
 This is done so that ESM consumers can continue importing the function as the default export:
 
-```js
-// after/app-importing-default-export.mjs
-import qux from 'my-module/default-export-partial';  // so this continues to work.
-```
+`after/app-importing-default-export.mjs`:
+
+[import](after/app-importing-default-export.mjs)
 
 However, as discussed in [the ESM interoperability guide](../../04-cjs-esm-interop/shipping-esm-for-cjs/README.md#how-esm-exports-map-to-requireesm), per the ESM specification, the default export of that ESM would only be available as the `'default'` property on the module namespace object, which is returned by `require(esm)` directly by default:
 
-```js
-// after/app-requiring-default-export-partial.cjs
-// The returned value is actually { default: [Function: qux] }
-const qux = require('my-module/default-export-partial');
-qux(); // ⛔ Throws TypeError: qux is not a function
-```
+`after/app-requiring-default-export-partial.cjs`:
+
+[import](after/app-requiring-default-export-partial.cjs)
 
 To address this disparity, Node.js recognizes a special `'module.exports'` named export for ESM. When provided, `require(esm)` returns its value directly instead of the module namespace object.
 
-```js
-// after/node_modules/my-module/default-export.js
-export default function qux() {};
-export { qux as 'module.exports' };  // To be backward compatible with CommonJS consumers.
-```
+`after/node_modules/my-module/default-export.js`:
 
-```js
-// after/app-requiring-default-export.cjs
-const qux = require('my-module/default-export');  // Returns the 'module.exports' named export.
-qux(); // Now it works as expected.
-```
+[import:'main,compat'](after/node_modules/my-module/default-export.js)
+
+`after/app-requiring-default-export.cjs`:
+
+[import](after/app-requiring-default-export.cjs)
 
 ## Dynamic exports
 
@@ -269,53 +211,22 @@ One typical approximation is to use a static export shape with `undefined` place
 
 For example, this CommonJS pattern:
 
-```js
-// before/node_modules/my-module/dynamic-exports.js
-exports.initialize = function(type) {
-  if (type === 'foo') {
-    exports.foo = function() { /* ... */ };
-  } else {
-    exports.bar = function() { /* ... */ };
-  }
-};
-// foo and bar are only added as exports when initialized.
-```
+`before/node_modules/my-module/dynamic-exports.js`:
+
+[import](before/node_modules/my-module/dynamic-exports.js)
 
 cannot be directly migrated to ESM. However, it can be restructured if consumers do not require uninitialized exports to be absent from the export list:
 
-```js
-// after/node_modules/my-module/dynamic-exports.js
-export let foo;
-export let bar;
-export function initialize(type) {
-  if (type === 'foo') {
-    foo = function() { /* ... */ };
-  } else {
-    bar = function() { /* ... */ };
-  }
-}
-// foo and bar will always be present as named exports, but may be undefined until initialized.
-export default { foo, bar, initialize };
-```
+`after/node_modules/my-module/dynamic-exports.js`:
 
-```js
-// before/app-using-dynamic-exports.mjs
-import myModule from 'my-module/dynamic-exports';
-console.log('foo' in myModule); // false
-console.log('bar' in myModule); // false
-myModule.initialize('foo');
-console.log('foo' in myModule); // true
-console.log('bar' in myModule); // false
-```
+[import](after/node_modules/my-module/dynamic-exports.js)
 
-```js
-// after/app-using-dynamic-exports.mjs
-import myModule from 'my-module/dynamic-exports';
-console.log('foo' in myModule); // true, even though it's undefined
-console.log('bar' in myModule); // true, even though it's undefined
-myModule.initialize('foo');
-console.log('foo' in myModule); // true
-console.log('bar' in myModule); // true
-```
+`before/app-using-dynamic-exports.mjs`:
+
+[import](before/app-using-dynamic-exports.mjs)
+
+`after/app-using-dynamic-exports.mjs`:
+
+[import](after/app-using-dynamic-exports.mjs)
 
 <!-- TODO(joyeecheung): document patterns that have no direct ESM equivalent e.g. exports with accessors, export with attributes -->
